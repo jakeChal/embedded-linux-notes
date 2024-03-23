@@ -1,0 +1,5 @@
+- Get your OS from https://www.raspberrypi.com/software/operating-systems/
+- `xz -vd your_raspios.img.xz`
+- Insert SD card and identify it (e.g. with `dmesg`)
+- Unmount it: `umount /dev/sdX*`
+- `sudo dd bs=4M if=your_raspios.img of=/dev/sdX conv=fsync status=progress`
