@@ -63,3 +63,8 @@ TR03 (3) (4) TR02
 ```
 $ cat /boot/config.txt
 ```
+
+- To get/set GPIO control registers you can use `raspi-gpio`, e.g.:
+```
+$ raspi-gpio help
+```
