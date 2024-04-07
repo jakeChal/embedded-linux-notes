@@ -40,3 +40,23 @@ Example:
 If it doesn't work, you may need to add the following on the Pi:  
 `echo options g_ether use_eem=0 > /etc/modprobe.d/g_ether.conf`  
 Then reboot it.
+
+
+## WiFi
+
+- `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
+- Add network configuration:
+```
+network={
+    ssid="YourSSID"
+    psk="YourPassphrase"
+}
+```
+- `sudo systemctl restart wpa_supplicant`
+- Get an IP via DHCP: `sudo dhclient -v wlan0`
+- Verify IP: `ifconfig wlan0`
+- Verify connection: `ping 8.8.8.8`
+
+Another way to setup your SSID/password is via `raspi-config` menu.
+
+Tip: If WiFi seems to be down, try to restart networking service: `systemctl restart networking`
