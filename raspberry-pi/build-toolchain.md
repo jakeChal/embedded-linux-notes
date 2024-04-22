@@ -55,4 +55,22 @@ This guide is for Raspberry Pi 4, but you can get the gist of how to set it up f
     ```
     $ aarch64-rpi4-linux-gnu-g++ hello_world.cpp -o hello_world
     ```
-    and copy it to the board (e.g. via `scp`)
+    and copy it to the board (e.g. via `scp`) - it should run without any issues.
+
+### Troubleshooting 
+
+- It is very well possible that when you run your (e.g. Cpp) binary, you get an issue like:
+
+```
+./hello: /lib/aarch64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by ./hello)
+```
+
+The reason, is that `libstdc++` is tied to a specific `gcc` version. So if the version of `gcc` on target is older
+than the version of `gcc` from your crosstool-ng toolchain, you're gonna have this problem.
+
+- To see which version of gcc you need to compile your binary, so that it works on your target you can use this: https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html . Check the "Symbol versioning on the libstdc++.so binary" section, and see which GCC version is need for the GLIBCXX symbols needed for your app
+- To see which gcc version you have on your target: `gcc --version`
+- Hence, to fix the issue:
+    - In crosstool-ng menuconfig, configure the gcc version to be the appropriate for your target's gcc (smaller or equal)
+    - Rebuild the toolchain
+    - Rebuild your binary and push it to the target

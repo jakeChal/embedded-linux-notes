@@ -68,10 +68,10 @@ Generally, it can be a quite complicated task to setup a cross-compile toolchain
 
 - **Build process**  
 The build process for a regular Linux cross-compilation toolchain goes like this:
-    1. Build binutils
-    2. Build the dependencies of gcc: mpfr, gmp, mpc
-    3. Install the Linux kernel headers
-    4. Build a first stage gcc: no support for a C library, support only for static linking
+    1. Build dependencies of binutils/gcc (GMP, MPFR, ISL, etc.)
+    2. Build binutils
+    3. Build a first stage gcc: no support for a C library, support only for static linking
+    4. Extract & install the Linux kernel headers
     5. Build the C library using the first stage gcc
     6. Build the final gcc, with C library and support for dynamic linking  
 ![Alt text](build_process.png)
@@ -80,7 +80,7 @@ The build process for a regular Linux cross-compilation toolchain goes like this
 ## Getting the toolchain
 
 There are 2 ways to get a toolchain:  
-- Get a pre-built one, e.g. from [ARM](https://www.linaro.org/downloads/) or [Bootlin](https://toolchains.bootlin.com/) (several architectures)
+- Get a pre-built one, e.g. from [ARM](https://www.linaro.org/downloads/), [Bootlin](https://toolchains.bootlin.com/) (several architectures) or just your distro's one - if it fits your needs (e.g.  [gcc-arm-linux-gnueabihf ](https://packages.ubuntu.com/search?keywords=gcc-arm-linux-gnueabihf) from Ubuntu)
 - Build it yourself
     - Manually collect all the toolchain components and set-up your own custom scripts to put all the pieces together - That's the most customizable/configurable option, but also the most painful to properly get it working
     - Via crosstool-NG: Very configurable and versatile
@@ -121,7 +121,7 @@ There are 2 ways to get a toolchain:
     $ ./ct-ng <sample-name>
     ```
 
-    #### Known issues
+    #### Known issues when building crosstool-ng
     - Source archives not found on the Internet  
 
         It is frequent that Crosstool-ng aborts because it can’t find a source archive on the Internet,
