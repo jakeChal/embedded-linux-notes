@@ -80,13 +80,16 @@ The build process for a regular Linux cross-compilation toolchain goes like this
 ## Getting the toolchain
 
 There are 2 ways to get a toolchain:  
-- Get a pre-built one, e.g. from [Linaro](https://www.linaro.org/downloads/) (Arm) or [Bootlin](https://toolchains.bootlin.com/) (several architectures)
+- Get a pre-built one, e.g. from [ARM](https://www.linaro.org/downloads/) or [Bootlin](https://toolchains.bootlin.com/) (several architectures)
 - Build it yourself
+    - Manually collect all the toolchain components and set-up your own custom scripts to put all the pieces together - That's the most customizable/configurable option, but also the most painful to properly get it working
     - Via crosstool-NG: Very configurable and versatile
-    - Embedded Linux build systems (Yocto/OpenEmbedded, Buildroot, OpenWRT)
+    - Embedded Linux rootfs build systems (Yocto/OpenEmbedded, Buildroot, OpenWRT)
 
     Here we'll focus on building it ourselves via crosstool-ng:
     An easy-to-use tool to create stand-alone toolchains for Embedded Linux is [crosstool-ng](https://github.com/crosstool-ng/crosstool-ng).  
+
+    ### crosstool-ng
     It’s an open-source utility that supports different architectures including ARM, x86, PowerPC, and MPIC, and has a menuconfig-style interface, similar to the one of Linux kernel.
 
     Clone it:
@@ -108,13 +111,40 @@ There are 2 ways to get a toolchain:
     $ ./ct-ng help
     ```
 
+    To check all the ready-to-use configurations:
+    ```
+    $ ./ct-ng list-samples
+    ```
+
+    To load a configuration:
+    ```
+    $ ./ct-ng <sample-name>
+    ```
+
+    #### Known issues
+    - Source archives not found on the Internet  
+
+        It is frequent that Crosstool-ng aborts because it can’t find a source archive on the Internet,
+        when such an archive has moved or has been replaced by more recent versions. New Crosstool-ng
+        versions ship with updated URLs, but in the meantime, you need work-arounds.
+        If this happens to you, what you can do is look for the source archive by yourself on the Internet,
+        and copy such an archive to the src directory in your home directory. Note that even source
+        archives compressed in a different way (for example, ending with .gz instead of .bz2) will be
+        fine too. Then, all you have to do is run ./ct-ng build again, and it will use the source archive
+        that you downloaded.
+
+
     Now go to the guides for setting up the toolchain for popular targets:
     - [Raspberry Pi](../raspberry-pi/build-toolchain.md)
     - BeagleBone Black (**TODO!!!**)
     - Qemu (**TODO!!!**)
 
+
 ## References
 
-Most of these notes are based on these great references, but you can check them out if you wanna dig deeper:  
-- https://preshing.com/20141119/how-to-build-a-gcc-cross-compiler/
+Most of these notes are based on these great references, and you should check them out if you wanna dig deeper!
+
 - https://bootlin.com/pub/conferences/2016/elce/petazzoni-toolchain-anatomy/petazzoni-toolchain-anatomy.pdf
+- https://bootlin.com/doc/training/embedded-linux-4d/embedded-linux-4d-labs.pdf
+- https://preshing.com/20141119/how-to-build-a-gcc-cross-compiler
+- https://www.amazon.com/Mastering-Embedded-Linux-Programming-potential/dp/1789530385
